@@ -148,6 +148,7 @@ for i in range(n):
         #ax.plot(xs,ys,zs, 'g')
 
         ax.plot(xs,ys,zs,color =  (0.2 + j*0.1, 0.5 - j*0.05, 0.2))
+        ax.plot(all_phot[i].hist[j+1][0],all_phot[i].hist[j+1][1],all_phot[i].hist[j+1][2], '.', color = 'C' + '%i'%(j+1))
 
 ax.plot(circ_x, circ_y1, 'b', alpha = 0.4)
 ax.plot(circ_x, circ_y2, 'b', alpha = 0.4)
