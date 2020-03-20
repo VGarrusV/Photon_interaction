@@ -7,7 +7,7 @@ import time
 #This version currently supports only rectangular birth surfaces.
 a = 5 #rect. width
 b = 30 #rect. length
-n = 100 #amount of photons to be modelled.
+n = 100000 #amount of photons to be modelled.
 #This version currently supports only cylindrical volumes for interaction.
 rad = 20 #radius of the cylinder
 heigth = 10 #heigth of the cylinder
@@ -25,19 +25,24 @@ filename = 'energy2.txt' #File from which to read energies and interaction cross
 #Execute energy zone creation.
 print('Creating energy zones...')
 z_energy, z_sigma_t, z_sigma_k = int_dep.create_zones(filename, E_min, E_max, step)
+mean_sigma_t = np.zeros(len(z_energy)-1)
+mean_sigma_k = np.zeros(len(z_energy)-1)
+for i in range(len(z_energy)-1):
+    mean_sigma_t[i] = (z_sigma_t[i] + z_sigma_t[i+1])/2
+    mean_sigma_k[i] = (z_sigma_k[i] + z_sigma_k[i+1])/2
 
 #Execute model computation. all_phot contains history of all interactions, flux_dens
 #contains information of contributions to the detector.
 start_time = time.time()
 print('Executing model computation...')
-all_phot, flux_dens = int_calc.model_computation(a, b, n, rad, heigth, det_x, det_y, det_z, z_energy, z_sigma_t, z_sigma_k)
+all_phot, flux_dens = int_calc.model_computation(a, b, n, rad, heigth, det_x, det_y, det_z, z_energy, mean_sigma_k, mean_sigma_t)
 print("\n--- Done in %s seconds ---\n" % (time.time() - start_time))
 #Plotting the results.
 print('Plotting flux density...')
 int_plt.plot_contribution(flux_dens, z_energy)
 
-usr_inp = input('Plot the hedgehog? (y/[n]): ')
-if usr_inp == 'y':
-    int_plt.plot_hedgehog(r, all_phot)
+#usr_inp = input('Plot the hedgehog? (y/[n]): ')
+#if usr_inp == 'y':
+#    int_plt.plot_hedgehog(rad, all_phot)
 
 print('Done.')

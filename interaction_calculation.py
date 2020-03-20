@@ -1,7 +1,8 @@
 import numpy as np
 import interaction_dependencies as int_dep
+import random
 
-def model_computation(a,b,n,r,h,det_x,det_y,det_z, z_energy, z_sigma_t, z_sigma_k):
+def model_computation(a,b,n,r,h,det_x,det_y,det_z, z_energy, mean_sigma_k, mean_sigma_t):
     x0, y0, z0 = int_dep.rect_surface(a,b,n)
 
     det = int_dep.detector(det_x,det_y,det_z)
@@ -14,15 +15,15 @@ def model_computation(a,b,n,r,h,det_x,det_y,det_z, z_energy, z_sigma_t, z_sigma_
 
         while True:
             curr_int_num = obj.inter_amount
-            obj.calc_length(z_energy, z_sigma_k, z_sigma_t)
+            obj.calc_length(z_energy, mean_sigma_k, mean_sigma_t)
             x,y,z = obj.calc_coor()
             if int_dep.in_or_out(x,y,z,r,h):
                 if obj.energy > 0.1:
-                    gamma = np.random.uniform(0,1,1)
+                    gamma = random.random()
                     if gamma < obj.sigma_norm:
                         if obj.weight > 10e-11:
                             obj.prop_energy()
-                            history.append(np.array([x,y,z, obj.zone_num, det.calc_contrib(x,y,z, obj.weight, obj.sigma_norm, obj.diff_s, obj.int_s)]))
+                            history.append(np.array([x,y,z, obj.zone_num, det.calc_contrib(x,y,z, obj.weight, obj.sigma_t, obj.diff_s, obj.int_s)]))
             if curr_int_num == obj.inter_amount:
                 del obj
                 break

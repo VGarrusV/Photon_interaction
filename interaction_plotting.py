@@ -28,7 +28,7 @@ def plot_hedgehog(r, all_phot):
     circ_y1 = np.sqrt(r*r - circ_x**2)
     circ_y2 = -np.sqrt(r*r - circ_x**2)
 
-    fig = plt.figure(1)
+    fig = plt.figure(2)
 
     ax = fig.gca(projection='3d')
 
