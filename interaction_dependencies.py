@@ -9,6 +9,34 @@ def rect_surface(a,b,n):
     z0 = np.zeros(n)
     return x0,y0,z0
 
+def circ_surface(r,n):
+    x0 = np.zeros(n)
+    y0 = np.zeros(n)
+    for i in range(n):
+        while True:
+            beta1 = 2*r*random.random() - r
+            beta2 = 2*r*random.random() - r
+            if (beta1*beta1 + beta2*beta2) < r*r:
+                break
+        x0[i] = beta1
+        y0[i] = beta2
+    return x0, y0, np.zeros(n)
+
+def ellipt_surface(a,b,n):
+    x0 = np.zeros(n)
+    y0 = np.zeros(n)
+    for i in range(n):
+        while True:
+            #beta1 = 2*a*random.random() - a
+            #beta2 = 2*b*random.random() - b
+            beta1 = 2*a*random.random() - a
+            beta2 = b*random.random()
+            if beta1*beta1 / (a*a) + beta2*beta2 / (b*b) < 1:
+                break
+        x0[i] = beta1
+        y0[i] = beta2
+    return x0,y0, np.zeros(n)
+
 def in_or_out(x,y,z,r,h):
     if sqrt(x*x+y*y) < r and z >= 0 and z < h:
         return True
@@ -136,8 +164,10 @@ class photon_prop:
         mu = 1 - 1/alpha + 1/alpha0
         self.mu = mu
         self.energy = alpha*photon_prop.m0c2
-        self.diff_s = 1/2 * (1+alpha0*(1-mu))**(-2) * (1+mu**2+alpha0**2*(1-mu)**2/(1+alpha0*(1-mu)))
-        self.int_s = 2*np.pi*((1+alpha0)/alpha0**2 *(2*(1+alpha0)/(1+2*alpha0)-np.log(1+2*alpha0)/alpha0)+np.log(1+2*alpha0)/(2*alpha0) - (1+3*alpha0)/(1+2*alpha0)**2)
+        self.diff_s = 1/2 * (1+alpha0*(1-mu))**(-2) * (1+mu**2+alpha0**2*\
+        (1-mu)**2/(1+alpha0*(1-mu)))
+        self.int_s = 2*np.pi*((1+alpha0)/alpha0**2 *(2*(1+alpha0)/(1+2*alpha0)-\
+        np.log(1+2*alpha0)/alpha0)+np.log(1+2*alpha0)/(2*alpha0) - (1+3*alpha0)/(1+2*alpha0)**2)
 
 class detector:
     def __init__(self, det_x, det_y, det_z):

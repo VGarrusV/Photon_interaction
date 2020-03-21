@@ -2,11 +2,11 @@ import numpy as np
 import interaction_dependencies as int_dep
 import random
 
-def model_computation(a,b,n,r,h,det_x,det_y,det_z, z_energy, mean_sigma_k, mean_sigma_t):
-    x0, y0, z0 = int_dep.rect_surface(a,b,n)
-
+def model_computation(surf_func,r,h,det_x,det_y,det_z, z_energy, mean_sigma_k, mean_sigma_t):
+    #x0, y0, z0 = int_dep.rect_surface(a,b,n)
+    x0, y0, z0 = surf_func
     det = int_dep.detector(det_x,det_y,det_z)
-
+    n = (len(x0))
     all_phot = []
 
     for i in range(n):

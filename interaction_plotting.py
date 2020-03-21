@@ -4,7 +4,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d import proj3d
 
 def plot_contribution(flux_dens, z_energy):
-    plt.figure(1)
+    fig = plt.figure(1)
     plt.clf()
     plt.grid(linestyle='--')
     widths = []
@@ -21,7 +21,8 @@ def plot_contribution(flux_dens, z_energy):
     plt.xlabel('Energy, MeV')
     plt.ylabel('Flux density')
     plt.title('Contribution vs Energy.')
-    plt.show()
+    plt.waitforbuttonpress(0)
+    plt.close(fig)
 
 def plot_hedgehog(r, all_phot):
     circ_x = np.linspace(-r,r,100)
@@ -60,4 +61,5 @@ def plot_hedgehog(r, all_phot):
     ax.set_ylabel('y')
     ax.set_zlabel('z')
 
-    plt.show()
+    plt.waitforbuttonpress(0)
+    plt.close(fig)

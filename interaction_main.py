@@ -4,10 +4,11 @@ import interaction_dependencies as int_dep
 import interaction_plotting as int_plt
 import time
 
-#This version currently supports only rectangular birth surfaces.
-a = 5 #rect. width
-b = 30 #rect. length
+#This version currently supports rectangular, circular and elliptic birth surfaces.
 n = 100000 #amount of photons to be modelled.
+#surf_func = int_dep.rect_surface(a,b,n) #a - rect. heigth, b - rect. length.
+surf_func = int_dep.ellipt_surface(20,10,n) #a - x half axis, b - y half axis.
+#surf_func = int_dep.circ_surface(r,n) #r - radius of circle.
 #This version currently supports only cylindrical volumes for interaction.
 rad = 20 #radius of the cylinder
 heigth = 10 #heigth of the cylinder
@@ -35,7 +36,7 @@ for i in range(len(z_energy)-1):
 #contains information of contributions to the detector.
 start_time = time.time()
 print('Executing model computation...')
-all_phot, flux_dens = int_calc.model_computation(a, b, n, rad, heigth, det_x, det_y, det_z, z_energy, mean_sigma_k, mean_sigma_t)
+all_phot, flux_dens = int_calc.model_computation(surf_func, rad, heigth, det_x, det_y, det_z, z_energy, mean_sigma_k, mean_sigma_t)
 print("\n--- Done in %s seconds ---\n" % (time.time() - start_time))
 #Plotting the results.
 print('Plotting flux density...')
@@ -43,6 +44,6 @@ int_plt.plot_contribution(flux_dens, z_energy)
 
 #usr_inp = input('Plot the hedgehog? (y/[n]): ')
 #if usr_inp == 'y':
-#    int_plt.plot_hedgehog(rad, all_phot)
+#int_plt.plot_hedgehog(rad, all_phot)
 
 print('Done.')
